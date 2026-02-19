@@ -3,13 +3,12 @@
   display: flex;
   align-items: center;
   padding: 0 12px;
-  height: 50px;
+  height: 55px;
 }
 
 /* табы занимают всё место */
 .tabs-bar .tabs {
   flex: 1;
-  margin-left: 100px;
 }
 
 /* гамбургер скрыт по умолчанию */
@@ -18,17 +17,127 @@
   color: white;
 }
 
+/* гамбургер всегда первый в строке */
+.tabs-hamburger {
+  order: -1;
+  margin-right: 25px !important; /* отступ от табов */
+}
+
+/* табам можно оставить flex:1, чтобы занимали остальное */
+.tabs-bar .tabs {
+  flex: 1;
+}
+/* скрываем дополнитетьный элемент, который показывает выделенный таб */
+  .dedicatedTab{
+    display: none;
+  }
+
 /* мобильная версия */
-@media (max-width: 992px) {
+@media (max-width: 1230px) {
   /* скрываем табы */
-  .tabs-bar .tabs {
+  .tabs-bar .tabs .closefirst {
     display: none;
   }
 
   /* показываем гамбургер */
   .tabs-hamburger {
-    display: flex;
+    display: flex !important;
     align-items: center;
     height: 48px;
   }
+}
+@media (max-width: 992px) {
+  /* скрываем табы */
+  .tabs-bar .tabs {
+    display: none;
+  }
+  /* дополнитетьно показываем выделенный таб */
+  .dedicatedTab{
+    display: flex;
+  }
+}
+
+/* --- кнопка выбора на class="collapsible" справа  ---*/
+.app{
+  position: relative;
+}
+.collapsible{
+  position: absolute;
+  top: 0px;
+  right: 0;
+  box-shadow: none !important;
+  border: 0;
+  margin-top: 0;
+  width: 180px;
+}
+/* костомизация блока */
+.header-flex{
+  height: 55px !important;
+  border: 0;
+  font-weight: 600;
+}
+/* расположить стрелку-иконку крайне справа */
+.header-flex {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  padding-left: 20px;
+}
+.header-flex i {
+  margin-left: auto; /* ← магия */
+}
+/* запретить копирование из выпадающего списка */
+#list-files .collapsible-header {
+  transition: background-color 250ms ease;
+}
+/* подсвечиваем выделение типов моделей при наведении мышью (меню справа) */
+#list-files .collapsible-header:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+/* выделяем элементы списка при наведении мышью (меню справа) */
+.collection .collection-item:hover {
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* блок выпадающего контента */
+.collapsible-body{
+  margin-top: 2px;
+  padding: 0;
+}
+/* анимация поворота иконки */
+/* базовое состояние */
+#list-files .collapsible-header i.material-icons {
+  margin-left: auto;              /* чтобы была справа */
+  transition: transform 500ms ease;
+  transform: rotate(0deg);
+}
+/* когда пункт открыт */
+#list-files li.active .collapsible-header i.material-icons {
+  transform: rotate(90deg);
+}
+/* ------------------------------------------------------ */
+
+/* название табов с учётом регистра */
+.btn,
+.dedicatedTab,
+.tabs .tab a {
+  text-transform: none !important;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* для подсветки пункта в sidenav - в гамбургер-меню */
+.sidenav li > a.active {
+  background-color: rgba(0,0,0,0.08);
+  font-weight: 600;
+}
+/* Сделать выезжающее меню уже */
+#mobile-demo.sidenav {
+  width: 240px;
+}
+#mobile-demo.sidenav a {
+  cursor: default;
+  font-size: 15px;
 }
