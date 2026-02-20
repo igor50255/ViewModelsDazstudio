@@ -75,4 +75,5 @@ document.addEventListener('DOMContentLoaded', () => {
       instance.close(0);
     });
   });
+
 });
