@@ -11,6 +11,8 @@ namespace ViewModelsDazstudio;
 /// </summary>
 public partial class MainWindow : Window
 {
+    string hostGallery = "gallery";
+    string rootContent = @"D:\Content";
     public MainWindow()
     {
         InitializeComponent();
@@ -23,7 +25,7 @@ public partial class MainWindow : Window
         await Browser.EnsureCoreWebView2Async();
 
         // Подписываемся на сообщения из веб-страницы
-        Browser.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
+        Browser.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceivedAsync;
 
         string webRoot = System.IO.Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
@@ -46,10 +48,15 @@ public partial class MainWindow : Window
             await Browser.ExecuteScriptAsync("window.focus();");
         };
 
+        // ВАЖНО: поставить gallery-host заранее (на любую существующую папку)
+        string initialGalleryFolder = rootContent; // или пустая папка-заглушка
+        Browser.CoreWebView2.SetVirtualHostNameToFolderMapping(hostGallery, initialGalleryFolder,
+            CoreWebView2HostResourceAccessKind.Allow);
+
         Browser.CoreWebView2.Navigate("https://app/index.html");
     }
 
-    private void CoreWebView2_WebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
+    private async void CoreWebView2_WebMessageReceivedAsync(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
     {
         var json = e.WebMessageAsJson;
 
@@ -99,6 +106,42 @@ public partial class MainWindow : Window
 
                     string finalJson = JsonSerializer.Serialize(response);
                     Browser.CoreWebView2.PostWebMessageAsJson(finalJson);
+                    break;
+                }
+            case "get-path-images":
+                {
+                    var folder = root.GetProperty("path").GetString() ?? "";
+
+                    //var folder = @"Genesis 9\Female";
+
+                    if (!Directory.Exists(rootContent + '/' + folder))
+                        break;
+
+
+                    var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                            { ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".avif" };
+
+                    // устанавливаем версию файла для измежания кеширования одинаковых имён из разных папок
+                    long ver = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+                    var images = Directory.EnumerateFiles(rootContent + '/' + folder)
+                        .Where(f => allowed.Contains(System.IO.Path.GetExtension(f)))
+                        .Select(f =>
+                        {
+                            var name = System.IO.Path.GetFileName(f);
+                            var urlName = Uri.EscapeDataString(name);
+                            return new
+                            {
+                                Name = name,
+                                Path = $"https://{hostGallery}/{folder}/{urlName}?v={ver}"
+                                //Path = $"https://{host}/{urlName}"
+                            };
+                        })
+                        .ToList();
+
+                    Browser.CoreWebView2.PostWebMessageAsJson(
+                        System.Text.Json.JsonSerializer.Serialize(new { type = "images", data = images })
+                    );
                     break;
                 }
             case "toggle-window-fullscreen": // раскрыть окно на весь экран

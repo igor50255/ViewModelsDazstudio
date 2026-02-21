@@ -1,26 +1,16 @@
 
 // В будущем эти пути к картинкам могут не работать, можно поставить путь к картинкам на пк
-window.images = [
-  { Name: "794.jpg", Path: "file:///C:/Users/igorNik/Desktop/aaaaaa/597605.jpg" },
-  { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
-  { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
-  { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
-  { Name: "5770id/1025/800/450id/1025/800/450.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "cute.webp", Path: "https://picsum.photos/id/1035/800/450" }
-];
-window.images2 = [
-  { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
-  { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
-  { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
-  { Name: "5770id/1025/800/450id/1025/800/450.jpg", Path: "https://picsum.photos/id/1025/800/450" },
-  { Name: "cute.webp", Path: "https://picsum.photos/id/1035/800/450" }
-];
+// window.images = [
+//   { Name: "794.jpg", Path: "file:///C:/Users/igorNik/Desktop/aaaaaa/597605.jpg" },
+//   { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
+//   { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
+//   { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
+//   { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
+//   { Name: "5770.jpg", Path: "https://picsum.photos/id/1025/800/450" },
+//   { Name: "794.jpg", Path: "https://picsum.photos/id/1015/800/450" },
+//   { Name: "5770id/1025/800/450id/1025/800/450.jpg", Path: "https://picsum.photos/id/1025/800/450" },
+//   { Name: "cute.webp", Path: "https://picsum.photos/id/1035/800/450" }
+// ];
 
 function loadGallery(images, gallery) {
   gallery.innerHTML = "";
