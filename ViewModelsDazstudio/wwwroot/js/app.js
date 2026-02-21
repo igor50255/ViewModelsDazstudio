@@ -1,6 +1,32 @@
 // Старт программы
 
-// Ищем активный путь по умолчанию, и показываем содержимое
+let pendingGalleryEl = null;
+
+// получение результата (списка картинок с сервера)
+window.chrome.webview.addEventListener('message', (e) => {
+  const msg = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+  if (msg.type !== 'images') return;
+
+  let images = msg.data;
+ 
+  console.log(images);
+
+  let gallery = pendingGalleryEl;
+
+  // запуск отображения галереи
+  loadGallery(images, gallery);
+  // тултипы на новых элементах
+  refreshTooltips(gallery);
+  // установка отзывчивой сетки для размещения картинок
+  gridApi = setupResponsiveGrid(gallery, () => images?.length ?? 0);
+  // пересчёт после показа
+  requestAnimationFrame(() => gridApi.recalc());       // ✅ must-have
+
+  pendingGalleryEl = null;
+});
+
+
+// Ищем активный путь по умолчанию при старте программы, и показываем содержимое
 document.addEventListener('DOMContentLoaded', function () {
 
   // вывод в окно активного таба
@@ -21,7 +47,7 @@ function printToActivTab(typeModel, activeTab) {
   // получаем окно для размещения контента
   const targetWindow = document.querySelector(targetId);
 
-  const result = typeModel + '/' + tabName;
+  const path = typeModel + '/' + tabName;
 
   // очищаем окно от предыдущего контента
   targetWindow.innerHTML = '';
@@ -29,30 +55,14 @@ function printToActivTab(typeModel, activeTab) {
   // создаём div галереи
   const gallery = document.createElement('div');
   gallery.className = 'gallery';
-
   // добавляем галерею в targetWindow
   targetWindow.appendChild(gallery);
 
-  if (targetId == "#female") {
-    // запуск отображения галереи
-    loadGallery(window.images, gallery);
-    // тултипы на новых элементах
-    refreshTooltips(gallery);
+  pendingGalleryEl = gallery;
 
-    gridApi = setupResponsiveGrid(gallery, () => window.images?.length ?? 0);
-  }
-  else {
-    // запуск отображения галереи
-    loadGallery(window.images2, gallery);
-    // тултипы на новых элементах
-    refreshTooltips(gallery);
-
-    gridApi = setupResponsiveGrid(gallery, () => window.images2?.length ?? 0);
-  }
-
-
-  // пересчёт после показа
-  requestAnimationFrame(() => gridApi.recalc());       // ✅ must-have
+  // отправка запроса для получения содержимого папки: path
+  const payload = { type: 'get-path-images', path };
+  chrome.webview.postMessage(payload);
 
 }
 
