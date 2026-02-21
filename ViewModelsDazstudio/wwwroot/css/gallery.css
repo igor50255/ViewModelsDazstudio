@@ -1,0 +1,81 @@
+:root{
+  --min: 200; /* min ширина карточки */
+  --max: 250; /* max ширина карточки */
+
+  --gap-x: 8; /* расстояние между колонками */
+  --gap-y: 8; /* расстояние между рядами */
+
+  --pad: 8; /* расстояние между крайними картинками и окном */
+}
+
+.gallery{
+  display: grid;
+
+  column-gap: calc(var(--gap-x) * 1px);
+  row-gap: calc(var(--gap-y) * 1px);
+
+  padding: calc(var(--pad) * 1px);
+
+  grid-template-columns: repeat(var(--cols, 1), calc(var(--w, 200) * 1px));
+  justify-content: var(--jc, start); /* start или center — выставляет JS */
+}
+
+.card{
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0;          /* убирает воздух от Materialize между рядами */
+}
+
+.card img{
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  object-fit: cover;
+  display: block;
+}
+
+.card .caption{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+
+  padding: 6px 12px;          /* чтобы не в край */
+  padding-right: 18px;        /* небольшой запас справа */
+  box-sizing: border-box;
+
+  font-size: 13px;
+  line-height: 1.2;
+  color: Aqua;
+  background: rgba(0,0,0,.45);
+
+  white-space: nowrap;        /* в одну строку */
+  overflow: hidden;           /* обрезать */
+  text-overflow: ellipsis;    /* ... */
+}
+
+/* поведение кусора на картинке */
+.card img{
+  cursor: default;      /* стрелка */
+}
+
+.card .caption{
+  cursor: pointer;      /* рука */
+  user-select: none;    /* чтобы не выделялось и не было ощущения "текста" */
+  -webkit-user-select: none;
+}
+
+/* на всякий: если где-то внутри появится span/a — наследуем курсор */
+.card .caption *{
+  cursor: inherit;
+}
+
+/* всплывающая подсказка */
+.material-tooltip {
+  background-color: Aqua;
+  color: #000;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 5px 14px;
+  min-height: 0 !important;    /* перебить min-height Materialize */
+}
+
+
