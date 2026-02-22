@@ -1,7 +1,14 @@
-// Старт программы
+// =====    Старт программы   =====
+
+// Ищем активный путь по умолчанию при старте программы, и показываем содержимое
+document.addEventListener('DOMContentLoaded', function () {
+
+  // вывод в окно активного таба
+  printToActivTab(null, null)
+
+});
 
 let pendingGalleryEl = null;
-
 // получение результата (списка картинок с сервера)
 window.chrome.webview.addEventListener('message', (e) => {
   const msg = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
@@ -25,14 +32,6 @@ window.chrome.webview.addEventListener('message', (e) => {
   pendingGalleryEl = null;
 });
 
-
-// Ищем активный путь по умолчанию при старте программы, и показываем содержимое
-document.addEventListener('DOMContentLoaded', function () {
-
-  // вывод в окно активного таба
-  printToActivTab(null, null)
-
-});
 
 // печать в окно активного таба
 function printToActivTab(typeModel, activeTab) {

@@ -3,6 +3,8 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Linq;
+using ViewModelsDazstudio.Services;
 
 namespace ViewModelsDazstudio;
 
@@ -13,6 +15,7 @@ public partial class MainWindow : Window
 {
     string hostGallery = "gallery";
     string rootContent = @"D:\Content";
+    string defaultImg = @"Resources\default.png";
     public MainWindow()
     {
         InitializeComponent();
@@ -117,27 +120,22 @@ public partial class MainWindow : Window
                     if (!Directory.Exists(rootContent + '/' + folder))
                         break;
 
-
-                    var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-                            { ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".avif" };
-
                     // устанавливаем версию файла для измежания кеширования одинаковых имён из разных папок
                     long ver = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-                    var images = Directory.EnumerateFiles(rootContent + '/' + folder)
-                        .Where(f => allowed.Contains(System.IO.Path.GetExtension(f)))
-                        .Select(f =>
-                        {
-                            var name = System.IO.Path.GetFileName(f);
-                            var urlName = Uri.EscapeDataString(name);
-                            return new
-                            {
-                                Name = name,
-                                Path = $"https://{hostGallery}/{folder}/{urlName}?v={ver}"
-                                //Path = $"https://{host}/{urlName}"
-                            };
-                        })
-                        .ToList();
+                    // получаем список путей к картинкам 0.* в папке "preview" каждого персонажа (в заданной папке)
+                    // если нет такой папки или такого файла, то создаёт. Файл берёт первый из папки персонажа или дефолтный, если в папке нет картинок
+
+                    var list = PreviewFixer.BuildList(rootContent + '/' + folder, defaultImg);
+
+                    if (list.Count == 0) return;// если в заданной папке нет контента
+
+                    // получаем список объектов для дальнейшей работы в js. Пример (это поля):
+                    //Name = "Aelwen For Genesis 8 Female",
+                    //PathFolder = $"https://{hostGallery}/{folder}/{urlName}", - https://gallery/Genesis 8 - 8.1\Female\Adeline for Genesis 8 Female
+                    //PathFile = $"https://{hostGallery}/{folder}/{urlNameFile}?v={ver}" - https://gallery/Genesis 8 - 8.1\Female\Adeline for Genesis 8 Female\preview\0.jpg?v=123456789
+
+                    var images = GalleryMapper.BuildImageDtos(list, hostGallery, folder, ver);
 
                     Browser.CoreWebView2.PostWebMessageAsJson(
                         System.Text.Json.JsonSerializer.Serialize(new { type = "images", data = images })

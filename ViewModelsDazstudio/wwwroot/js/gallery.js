@@ -20,7 +20,7 @@ function loadGallery(images, gallery) {
     card.className = "card";
 
     const image = document.createElement("img");
-    image.src = img.Path;
+    image.src = img.PathFile;
     image.alt = img.Name ?? "";
     image.loading = "lazy";
 
@@ -29,7 +29,7 @@ function loadGallery(images, gallery) {
     caption.textContent = img.Name ?? "";
 
     // сохраняем путь прямо в DOM
-    caption.dataset.path = img.Path ?? "";
+    caption.dataset.path = img.PathFolder ?? "";
 
     // // Полный текст — в data-tooltip
     caption.setAttribute("data-tooltip", img.Name ?? "");
