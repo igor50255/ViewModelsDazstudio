@@ -1,9 +1,9 @@
 ﻿using Microsoft.Web.WebView2.Core;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml.Linq;
 using ViewModelsDazstudio.Services;
 
 namespace ViewModelsDazstudio;
@@ -142,7 +142,16 @@ public partial class MainWindow : Window
                     );
                     break;
                 }
-            case "toggle-window-fullscreen": // раскрыть окно на весь экран
+            case "open-model-folder":
+                {
+                    var url = root.GetProperty("path").GetString() ?? "";
+
+                    // открытие папки с выбранной моделью в проводнике Windows
+                    ModelFolder.Open(url, rootContent, hostGallery);
+
+                    break;
+                }
+            case "toggle-window-fullscreen": // раскрыть окно на весь экранvar 
                 {
                     ToggleWpfFullscreen();
                     break;
