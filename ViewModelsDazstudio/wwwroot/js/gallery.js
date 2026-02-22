@@ -111,7 +111,10 @@ document.addEventListener("click", (e) => {
   const cap = e.target.closest(".caption");
   if (!cap) return;
 
-  console.log(cap.dataset.path); // здесь можно открыть папку с этой картинкой
+  console.log(cap.dataset.path); // здесь можно открыть папку с этой моделью
+  // открыть папку на пк с этой моделью
+  const payload = { type: 'open-model-folder', path: cap.dataset.path};
+  chrome.webview.postMessage(payload);
 });
 
 // инициализация Tooltipe - всплывающей подсказки
