@@ -56,7 +56,7 @@
                     <li class="tab"><a href="#hair">Hair</a></li>
                     <li class="tab"><a href="#poses">Poses</a></li>
                     <li class="tab"><a href="#morf">Morf</a></li>
-                    <li class="tab"><a href="#props">Props</a></li>
+                    <li class="tab closefirst"><a href="#props">Props</a></li>
                     <li class="tab closefirst"><a href="#animals">Animals</a></li>
                     <li class="tab closefirst"><a href="#locations">Locations</a></li>
                     <li class="tab closefirst"><a href="#other">Other</a></li>
@@ -86,17 +86,17 @@
         </ul>
 
         <!-- CONTENT -->
-        <div id="female">Female</div>
-        <div id="male">Male</div>
-        <div id="clothes">Clothes</div>
-        <div id="base">Base</div>
-        <div id="hair">Hair</div>
-        <div id="poses">Poses</div>
-        <div id="morf">Morf</div>
-        <div id="props">Props</div>
-        <div id="animals">Animals</div>
-        <div id="locations">Locations</div>
-        <div id="other">Other</div>
+        <div id="female" class="content">Female</div>
+        <div id="male" class="content">Male</div>
+        <div id="clothes" class="content">Clothes</div>
+        <div id="base" class="content">Base</div>
+        <div id="hair" class="content">Hair</div>
+        <div id="poses" class="content">Poses</div>
+        <div id="morf" class="content">Morf</div>
+        <div id="props" class="content">Props</div>
+        <div id="animals" class="content">Animals</div>
+        <div id="locations" class="content">Locations</div>
+        <div id="other" class="content">Other</div>
 
         
         <ul id="list-files" class="collapsible">
@@ -118,6 +118,40 @@
             </li>
         </ul>
 
+        <ul id="list-search" class="collapsible">
+            <li>
+                <div class="collapsible-header header-flex deep-purple accent-2 white-text">
+                    <span id="files-countSearch">All</span>
+                </div>
+                <div class="collapsible-body">
+                    <div class="collection">
+                        <div class="collection-item">All</div>
+                        <div class="collection-item">A</div>
+                        <div class="collection-item">B</div>
+                        <div class="collection-item">C</div>
+                        <div class="collection-item">D</div>
+                        <div class="collection-item">E</div>
+                        <div class="collection-item">F</div>
+                        <div class="collection-item">G</div>
+                        <div class="collection-item">H</div>
+                        <div class="collection-item">IJ</div>
+                        <div class="collection-item">K</div>
+                        <div class="collection-item">LM</div>
+                        <div class="collection-item">N</div>
+                        <div class="collection-item">OP</div>
+                        <div class="collection-item">R</div>
+                        <div class="collection-item">S</div>
+                        <div class="collection-item">SASE</div>
+                        <div class="collection-item">T</div>
+                        <div class="collection-item">VW</div>
+                        <div class="collection-item">X</div>
+                        <div class="collection-item">YZ</div>
+                        <div class="collection-item">Other</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
     </div>
     <script>
 
@@ -129,6 +163,7 @@
     <script src="js/gallery.js"></script>
     <script src="js/typeTab.js"></script>
     <script src="js/typeModel.js"></script>
+    <script src="js/typeSearth.js"></script>
     <script src="js/Initialization.js"></script>
     <script src="js/informationWindow.js"></script>
     <script src="js/fullscreen.js"></script>
