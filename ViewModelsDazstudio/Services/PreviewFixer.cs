@@ -9,7 +9,7 @@ namespace ViewModelsDazstudio.Services
         ".jpg", ".jpeg", ".png", ".webp", ".bmp", ".gif", ".tif", ".tiff", ".heic", ".avif"
     };
 
-        public static List<string> BuildList(string rootDir, string defaultImagePath = @"D:\default.jpg")
+        public static List<string> BuildList(string rootDir, string criteria, string defaultImagePath = @"D:\default.jpg")
         {
             if (!Directory.Exists(rootDir))
                 throw new DirectoryNotFoundException($"Root directory not found: {rootDir}");
@@ -19,7 +19,10 @@ namespace ViewModelsDazstudio.Services
 
             var result = new List<string>();
 
-            foreach (var folder in Directory.EnumerateDirectories(rootDir))
+            // фильтруем директории согласно поиска: All, SASE, Other, A, IJ, LM и т.п.
+            var filteredFolders = Directory.EnumerateDirectories(rootDir).Where(folder => Filter.FilterFolder(folder, criteria));
+
+            foreach (var folder in filteredFolders)
             {
                 // 1) preview folder must exist
                 var previewDir = Path.Combine(folder, "preview");

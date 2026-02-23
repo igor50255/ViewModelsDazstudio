@@ -34,7 +34,7 @@ window.chrome.webview.addEventListener('message', (e) => {
 
 
 // печать в окно активного таба
-function printToActivTab(typeModel, activeTab) {
+function printToActivTab(typeModel, activeTab, typeSearch = "All") {
   // получаем активный элемент tab
   if (activeTab == null) activeTab = document.querySelector('.tabs .tab a.active');
   // получаем название выбранного типа модели
@@ -60,7 +60,7 @@ function printToActivTab(typeModel, activeTab) {
   pendingGalleryEl = gallery;
 
   // отправка запроса для получения содержимого папки: path
-  const payload = { type: 'get-path-images', path };
+  const payload = { type: 'get-path-images', path, searth: typeSearch };
   chrome.webview.postMessage(payload);
 
 }

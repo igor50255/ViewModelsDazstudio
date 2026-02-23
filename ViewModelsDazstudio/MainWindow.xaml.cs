@@ -1,5 +1,4 @@
 ﻿using Microsoft.Web.WebView2.Core;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -120,15 +119,18 @@ public partial class MainWindow : Window
                     if (!Directory.Exists(rootContent + '/' + folder))
                         break;
 
-                    // устанавливаем версию файла для измежания кеширования одинаковых имён из разных папок
-                    long ver = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                    // фильтрация по поиску
+                    var search = root.GetProperty("searth").GetString() ?? ""; // или "Other", "All", или "S", "A", "IJ" и т.п.
 
                     // получаем список путей к картинкам 0.* в папке "preview" каждого персонажа (в заданной папке)
                     // если нет такой папки или такого файла, то создаёт. Файл берёт первый из папки персонажа или дефолтный, если в папке нет картинок
 
-                    var list = PreviewFixer.BuildList(rootContent + '/' + folder, defaultImg);
-
+                    var list = PreviewFixer.BuildList(rootContent + '/' + folder, search, defaultImg);
+                    
                     if (list.Count == 0) return;// если в заданной папке нет контента
+
+                    // устанавливаем версию файла для измежания кеширования одинаковых имён из разных папок
+                    long ver = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
                     // получаем список объектов для дальнейшей работы в js. Пример (это поля):
                     //Name = "Aelwen For Genesis 8 Female",

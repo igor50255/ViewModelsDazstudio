@@ -1,9 +1,27 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* ❗ запрет скролла страницы */
+}
+.app {
+  height: 100vh;        /* вся высота окна */
+  display: flex;
+  flex-direction: column;
+}
+
 /* полоса табов */
 .tabs-bar {
   display: flex;
   align-items: center;
   padding: 0 12px;
   height: 55px;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;             /* занимает всё оставшееся место */
+  overflow-y: auto;    /* ← СКРОЛЛ ТОЛЬКО ЗДЕСЬ */
+  /* padding-bottom: 10px; */
 }
 
 /* табы занимают всё место */
@@ -20,20 +38,23 @@
 /* гамбургер всегда первый в строке */
 .tabs-hamburger {
   order: -1;
-  margin-right: 25px !important; /* отступ от табов */
+  margin-right: 25px !important;
+  /* отступ от табов */
 }
 
 /* табам можно оставить flex:1, чтобы занимали остальное */
 .tabs-bar .tabs {
   flex: 1;
 }
+
 /* скрываем дополнитетьный элемент, который показывает выделенный таб */
-  .dedicatedTab{
-    display: none;
-  }
+.dedicatedTab {
+  display: none;
+}
 
 /* мобильная версия */
-@media (max-width: 1230px) {
+@media (max-width: 1280px) {
+
   /* скрываем табы */
   .tabs-bar .tabs .closefirst {
     display: none;
@@ -46,22 +67,26 @@
     height: 48px;
   }
 }
+
 @media (max-width: 992px) {
+
   /* скрываем табы */
   .tabs-bar .tabs {
     display: none;
   }
+
   /* дополнитетьно показываем выделенный таб */
-  .dedicatedTab{
+  .dedicatedTab {
     display: flex;
   }
 }
 
 /* --- кнопка выбора на class="collapsible" справа  ---*/
-.app{
+.app {
   position: relative;
 }
-.collapsible{
+
+.collapsible {
   position: absolute;
   top: 0px;
   right: 0;
@@ -70,12 +95,14 @@
   margin-top: 0;
   width: 180px;
 }
+
 /* костомизация блока */
-.header-flex{
+.header-flex {
   height: 55px !important;
   border: 0;
   font-weight: 600;
 }
+
 /* расположить стрелку-иконку крайне справа */
 .header-flex {
   display: flex;
@@ -84,38 +111,69 @@
   padding: 0;
   padding-left: 20px;
 }
+
 .header-flex i {
-  margin-left: auto; /* ← магия */
+  margin-left: auto;
+  /* ← магия */
 }
+
 /* запретить копирование из выпадающего списка */
 #list-files .collapsible-header {
   transition: background-color 250ms ease;
 }
+
 /* подсвечиваем выделение типов моделей при наведении мышью (меню справа) */
+#list-search .collapsible-header:hover,
 #list-files .collapsible-header:hover {
   background-color: rgba(0, 0, 0, 0.04) !important;
 }
+
 /* выделяем элементы списка при наведении мышью (меню справа) */
 .collection .collection-item:hover {
   cursor: default;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgb(235, 235, 235);
 }
 
 /* блок выпадающего контента */
-.collapsible-body{
+.collapsible-body {
   margin-top: 2px;
   padding: 0;
 }
+
 /* анимация поворота иконки */
 /* базовое состояние */
 #list-files .collapsible-header i.material-icons {
-  margin-left: auto;              /* чтобы была справа */
+  margin-left: auto;
+  /* чтобы была справа */
   transition: transform 500ms ease;
   transform: rotate(0deg);
 }
+
 /* когда пункт открыт */
 #list-files li.active .collapsible-header i.material-icons {
   transform: rotate(90deg);
+}
+
+/* ------------------------------------------------------ */
+/* --- кнопка выбора: Поиск по начальной букве  ---*/
+/* размеры и положение кнопки */
+#list-search {
+  right: 180px;
+  width: 80px;
+}
+/* расположение текста внутри кнопки */
+#list-search .header-flex {
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+/* скролл для выпадающего списка */
+#list-search .collapsible-body {
+  padding: 0; /* чтобы не влиял на расчёт высоты */
+}
+#list-search .collection {
+  max-height: calc(100vh - 55px); /* подгони под свой хедер */
+  overflow-y: auto;
 }
 /* ------------------------------------------------------ */
 
@@ -127,17 +185,24 @@
   font-weight: 600;
   font-size: 16px;
 }
+/* для подсветки пункта в sidenav - в гамбургер-меню при наведении мыши */
+.sidenav li>a:hover  {
+  background-color: rgb(235, 235, 235);
+}
 
-/* для подсветки пункта в sidenav - в гамбургер-меню */
-.sidenav li > a.active {
-  background-color: rgba(0,0,0,0.08);
+/* для подсветки активного пункта в sidenav - в гамбургер-меню */
+.sidenav li>a.active {
+  background-color: rgb(215, 215, 215);
   font-weight: 600;
 }
+
 /* Сделать выезжающее меню уже */
 #mobile-demo.sidenav {
   width: 240px;
 }
+
 #mobile-demo.sidenav a {
   cursor: default;
   font-size: 15px;
 }
+

@@ -55,25 +55,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // инициализация collapsible - меню выбора типа модели 
-  const collapsibleEl = document.querySelector('#list-files');
-  M.Collapsible.init(collapsibleEl, {
+  const collapsibleType = document.querySelector('#list-files');
+  M.Collapsible.init(collapsibleType, {
+    inDuration: 500,   // скорость открытия
+    outDuration: 500,  // скорость закрытия
+    accordion: false
+  });
+  // инициализация collapsible - меню выбора модели по начальной букве
+  const collapsibleSearch = document.querySelector('#list-search');
+  M.Collapsible.init(collapsibleSearch, {
     inDuration: 500,   // скорость открытия
     outDuration: 500,  // скорость закрытия
     accordion: false
   });
 
-  const headerText = document.querySelector('#files-count');
-
-
-  collapsibleEl.querySelectorAll('.collection-item').forEach(item => {
+  // меняем заголовок у выбора поколения модели и закрываем collapsible при клике
+  const headerTextType = collapsibleType.querySelector('#files-count');
+  collapsibleType.querySelectorAll('.collection-item').forEach(item => {
     item.addEventListener('click', () => {
       // только меняем заголовок
-      headerText.textContent = item.textContent.trim();
+      headerTextType.textContent = item.textContent.trim();
 
       // закрываем collapsible
-      const instance = M.Collapsible.getInstance(collapsibleEl);
+      const instance = M.Collapsible.getInstance(collapsibleType);
       instance.close(0);
     });
   });
 
+  // меняем заголовок у выбора поиска модели и закрываем collapsible при клике
+  const headerTextSearch = collapsibleSearch.querySelector('#files-countSearch');
+  collapsibleSearch.querySelectorAll('.collection-item').forEach(item => {
+    item.addEventListener('click', () => {
+      // только меняем заголовок
+      headerTextSearch.textContent = item.textContent.trim();
+
+      // закрываем collapsible
+      const instance = M.Collapsible.getInstance(collapsibleSearch);
+      instance.close(0);
+    });
+  });
+  
 });
+
+// 1) Вешаем глобальный клик
+document.addEventListener(
+  "pointerdown", // лучше чем click: срабатывает раньше (до focus/blur)
+  (e) => {
+    // 2) Игнорируем клики внутри "открытых вещей"
+    const insidePopup = e.target.closest(".popup, .dropdown, .modal");
+
+    if (!insidePopup) {
+      closeAllOpenThings();
+    }
+  },
+  true // <-- capture: ловим клик на захвате
+);
+
+function closeAllOpenThings() {
+  // закрываем меню выбора модели по начальной букве
+  const collapsibleSearch = document.querySelector('#list-search');
+  const instance1 = M.Collapsible.getInstance(collapsibleSearch);
+      instance1.close(0);
+  // зкрываем меню выбора покаления модели
+  const collapsibleType = document.querySelector('#list-files');
+  const instance2 = M.Collapsible.getInstance(collapsibleType);
+      instance2.close(0);
+}
+
+
+
+

@@ -129,8 +129,8 @@ function refreshTooltips(scope = document) {
   M.Tooltip.init(elems, {
     exitDelay: 200,      // задержка перед скрытием (мс)
     enterDelay: 1000,     // задержка перед показом (мс)
-    transitionMovement: 10, // «подпрыгивание» тултипа
-    margin: 5,           // отступ от элемента
+    transitionMovement: 0, // «подпрыгивание» тултипа
+    margin: 17,           // отступ от элемента
     position: 'bottom',     // top | right | bottom | left
   });
 }
