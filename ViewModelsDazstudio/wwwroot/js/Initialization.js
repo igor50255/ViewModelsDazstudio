@@ -94,32 +94,48 @@ document.addEventListener('DOMContentLoaded', () => {
       instance.close(0);
     });
   });
-  
+
 });
 
-// 1) Вешаем глобальный клик
-document.addEventListener(
-  "pointerdown", // лучше чем click: срабатывает раньше (до focus/blur)
-  (e) => {
-    // 2) Игнорируем клики внутри "открытых вещей"
-    const insidePopup = e.target.closest(".popup, .dropdown, .modal");
+// 1) Вешаем глобальный клик для для закрития выпадающих списков при клике где угодно
+document.addEventListener("pointerdown", (e) => {
+  const onFilesBtn   = e.target.closest("#files-count");
+  const onSearchBtn  = e.target.closest("#files-countSearch");
 
-    if (!insidePopup) {
-      closeAllOpenThings();
-    }
-  },
-  true // <-- capture: ловим клик на захвате
-);
+  const inFilesList  = e.target.closest("#list-files");
+  const inSearchList = e.target.closest("#list-search");
 
-function closeAllOpenThings() {
-  // закрываем меню выбора модели по начальной букве
-  const collapsibleSearch = document.querySelector('#list-search');
-  const instance1 = M.Collapsible.getInstance(collapsibleSearch);
-      instance1.close(0);
-  // зкрываем меню выбора покаления модели
-  const collapsibleType = document.querySelector('#list-files');
-  const instance2 = M.Collapsible.getInstance(collapsibleType);
-      instance2.close(0);
+  // 1) Клик по одному триггеру -> закрываем другой список
+  if (onFilesBtn) {
+    closeCollapsible("#list-search");
+    return;
+  }
+  if (onSearchBtn) {
+    closeCollapsible("#list-files");
+    return;
+  }
+
+  // 2) Клик внутри списков -> ничего не делаем
+  if (inFilesList || inSearchList) return;
+
+  // 3) Клик везде вне триггеров и списков -> закрыть оба
+  closeCollapsible("#list-files");
+  closeCollapsible("#list-search");
+}); // <-- важно: без capture
+
+
+function closeCollapsible(selector) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+
+  let inst = M.Collapsible.getInstance(el);
+  if (!inst) inst = M.Collapsible.init(el);
+
+  // закрыть первую секцию (если у тебя одна)
+  inst.close(0);
+
+  // если секций может быть несколько — так надёжнее:
+  // el.querySelectorAll("li").forEach((_, i) => inst.close(i));
 }
 
 

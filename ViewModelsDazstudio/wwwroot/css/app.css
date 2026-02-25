@@ -21,7 +21,10 @@ html, body {
 .content {
   flex: 1;             /* занимает всё оставшееся место */
   overflow-y: auto;    /* ← СКРОЛЛ ТОЛЬКО ЗДЕСЬ */
-  /* padding-bottom: 10px; */
+  opacity: 0;
+}
+.set{
+   opacity: 1; /* исключение для settings */
 }
 
 /* табы занимают всё место */
@@ -89,11 +92,11 @@ html, body {
 .collapsible {
   position: absolute;
   top: 0px;
-  right: 0;
+  right: 50px;
   box-shadow: none !important;
   border: 0;
   margin-top: 0;
-  width: 180px;
+  width: 140px;
 }
 
 /* костомизация блока */
@@ -103,29 +106,16 @@ html, body {
   font-weight: 600;
 }
 
-/* расположить стрелку-иконку крайне справа */
-.header-flex {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  padding-left: 20px;
-}
-
-.header-flex i {
-  margin-left: auto;
-  /* ← магия */
-}
-
 /* запретить копирование из выпадающего списка */
 #list-files .collapsible-header {
   transition: background-color 250ms ease;
 }
 
 /* подсвечиваем выделение типов моделей при наведении мышью (меню справа) */
+#open-settings:hover,
 #list-search .collapsible-header:hover,
 #list-files .collapsible-header:hover {
-  background-color: rgba(0, 0, 0, 0.04) !important;
+  background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 /* выделяем элементы списка при наведении мышью (меню справа) */
@@ -140,28 +130,22 @@ html, body {
   padding: 0;
 }
 
-/* анимация поворота иконки */
-/* базовое состояние */
-#list-files .collapsible-header i.material-icons {
-  margin-left: auto;
-  /* чтобы была справа */
-  transition: transform 500ms ease;
-  transform: rotate(0deg);
+/* ------------------------------------------------------ */
+/* --- кнопка Settings  ---*/
+#open-settings{
+  right: 0px;
+  width: 50px;
+  height: 55px;
 }
-
-/* когда пункт открыт */
-#list-files li.active .collapsible-header i.material-icons {
-  transform: rotate(90deg);
-}
-
 /* ------------------------------------------------------ */
 /* --- кнопка выбора: Поиск по начальной букве  ---*/
 /* размеры и положение кнопки */
 #list-search {
-  right: 180px;
+  right: 190px;
   width: 80px;
 }
 /* расположение текста внутри кнопки */
+#list-files .header-flex,
 #list-search .header-flex {
   justify-content: center;
   align-items: center;
@@ -176,6 +160,10 @@ html, body {
   overflow-y: auto;
 }
 /* ------------------------------------------------------ */
+/* скрываем tab с настройками */
+.tabs-bar .tabs .hidden-tab {
+  display: none;
+}
 
 /* название табов с учётом регистра */
 .btn,
