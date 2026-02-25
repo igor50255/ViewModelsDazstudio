@@ -12,8 +12,9 @@ namespace ViewModelsDazstudio;
 /// </summary>
 public partial class MainWindow : Window
 {
+    string hostIndex = "app";
     string hostGallery = "gallery";
-    string rootContent = @"D:\Content";
+    string rootContent = @"D:\ContentDazStudio";
     string defaultImg = @"Resources\default.png";
     public MainWindow()
     {
@@ -23,20 +24,19 @@ public partial class MainWindow : Window
 
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
+        // Устанавливаем папку для контента при первом запуске (или при изменении папки)
+        rootContent = Configure.SetRootContent(rootContent, this);
+
         // Обязательно: создаёт окружение/профиль и гарантирует готовность движка
         await Browser.EnsureCoreWebView2Async();
 
         // Подписываемся на сообщения из веб-страницы
         Browser.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceivedAsync;
 
-        string webRoot = System.IO.Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "wwwroot"
-        );
+        string webRoot = System.IO.Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "wwwroot");
 
-        Browser.CoreWebView2.SetVirtualHostNameToFolderMapping(
-            "app",
-            webRoot,
+        // маппим хост для запуска index.html
+        Browser.CoreWebView2.SetVirtualHostNameToFolderMapping(hostIndex, webRoot,
             CoreWebView2HostResourceAccessKind.Allow
         );
 
@@ -48,14 +48,18 @@ public partial class MainWindow : Window
 
             // фокус внутри страницы (иногда нужен дополнительно)
             await Browser.ExecuteScriptAsync("window.focus();");
+
         };
 
-        // ВАЖНО: поставить gallery-host заранее (на любую существующую папку)
-        string initialGalleryFolder = rootContent; // или пустая папка-заглушка
+        // ВАЖНО: поставить gallery-host заранее (для работы с контентом галерееи)
+        string initialGalleryFolder = rootContent;
         Browser.CoreWebView2.SetVirtualHostNameToFolderMapping(hostGallery, initialGalleryFolder,
             CoreWebView2HostResourceAccessKind.Allow);
 
-        Browser.CoreWebView2.Navigate("https://app/index.html");
+
+        Browser.CoreWebView2.Navigate($"https://{hostIndex}/index.html");
+
+
     }
 
     private async void CoreWebView2_WebMessageReceivedAsync(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
@@ -72,44 +76,6 @@ public partial class MainWindow : Window
 
         switch (type)
         {
-            case "text.append":
-                {
-                    var payload = root.GetProperty("payload");
-                    var value = payload.GetProperty("value").GetString() ?? "";
-
-                    var response = new
-                    {
-                        type = "text.set",
-                        payload = new
-                        {
-                            id = "myText",
-                            value = value + " + C#"
-                        }
-                    };
-
-                    string finalJson = JsonSerializer.Serialize(response);
-                    Browser.CoreWebView2.PostWebMessageAsJson(finalJson);
-                    break;
-                }
-            case "text.new":
-                {
-                    var payload = root.GetProperty("payload");
-                    var value = payload.GetProperty("value").GetString() ?? "";
-
-                    var response = new
-                    {
-                        type = "text.set",
-                        payload = new
-                        {
-                            id = "myText",
-                            value = value
-                        }
-                    };
-
-                    string finalJson = JsonSerializer.Serialize(response);
-                    Browser.CoreWebView2.PostWebMessageAsJson(finalJson);
-                    break;
-                }
             case "get-path-images":
                 {
                     var folder = root.GetProperty("path").GetString() ?? "";
@@ -163,6 +129,24 @@ public partial class MainWindow : Window
                     if (_isWpfFullscreen) ToggleWpfFullscreen();
                     break;
                 }
+            case "restarting-application": // перезапуск приложения
+                {
+                    // изменение пути к папке с контетом
+                    Properties.Settings.Default.rootFolder = false;
+                    Properties.Settings.Default.Save();
+
+                    Restart.RestartApplication();
+                    break;
+                }
+            case "get-path-content": // получить актуальный путь к папке с контентом
+                {
+                    var pathContent =  Properties.Settings.Default.rootFolderPath;
+ 
+                    Browser.CoreWebView2.PostWebMessageAsJson(
+                        System.Text.Json.JsonSerializer.Serialize(new { type = "set-path-content", pathContent = pathContent.ToString() })
+                    );
+                    break;
+                }
         }
     }
 
@@ -205,4 +189,6 @@ public partial class MainWindow : Window
         Browser.Focus();
         Keyboard.Focus(Browser);
     }
+
+
 }

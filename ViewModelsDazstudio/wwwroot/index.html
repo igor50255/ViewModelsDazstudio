@@ -52,14 +52,16 @@
                     <li class="tab"><a class="active" href="#female">Female</a></li>
                     <li class="tab"><a href="#male">Male</a></li>
                     <li class="tab"><a href="#clothes">Clothes</a></li>
-                    <li class="tab"><a href="#base">Base</a></li>
                     <li class="tab"><a href="#hair">Hair</a></li>
                     <li class="tab"><a href="#poses">Poses</a></li>
                     <li class="tab"><a href="#morf">Morf</a></li>
-                    <li class="tab closefirst"><a href="#props">Props</a></li>
+                    <li class="tab"><a href="#props">Props</a></li>
                     <li class="tab closefirst"><a href="#animals">Animals</a></li>
                     <li class="tab closefirst"><a href="#locations">Locations</a></li>
+                    <li class="tab closefirst"><a href="#base">Base</a></li>
                     <li class="tab closefirst"><a href="#other">Other</a></li>
+                    <!-- скрытый таб -->
+                    <li class="tab hidden-tab"><a href="#settings"></a></li>
                 </ul>
                 <div class="dedicatedTab">Female</div>
 
@@ -75,13 +77,13 @@
             <li><a href="#female" class="sidenav-tab">Female</a></li>
             <li><a href="#male" class="sidenav-tab">Male</a></li>
             <li><a href="#clothes" class="sidenav-tab">Clothes</a></li>
-            <li><a href="#base" class="sidenav-tab">Base</a></li>
             <li><a href="#hair" class="sidenav-tab">Hair</a></li>
             <li><a href="#poses" class="sidenav-tab">Poses</a></li>
             <li><a href="#morf" class="sidenav-tab">Morf</a></li>
             <li><a href="#props" class="sidenav-tab">Props</a></li>
             <li><a href="#animals" class="sidenav-tab">Animals</a></li>
             <li><a href="#locations" class="sidenav-tab">Locations</a></li>
+            <li><a href="#base" class="sidenav-tab">Base</a></li>
             <li><a href="#other" class="sidenav-tab">Other</a></li>
         </ul>
 
@@ -89,21 +91,100 @@
         <div id="female" class="content">Female</div>
         <div id="male" class="content">Male</div>
         <div id="clothes" class="content">Clothes</div>
-        <div id="base" class="content">Base</div>
         <div id="hair" class="content">Hair</div>
         <div id="poses" class="content">Poses</div>
         <div id="morf" class="content">Morf</div>
         <div id="props" class="content">Props</div>
         <div id="animals" class="content">Animals</div>
         <div id="locations" class="content">Locations</div>
+        <div id="base" class="content">Base</div>
         <div id="other" class="content">Other</div>
+        <div id="settings" class="content set">
+            <!-- HELP / СПРАВКА (Materialize CSS) -->
+            <div class="container" style="margin-top: 24px;">
+                <div class="card z-depth-2">
+                    <div class="card-content">
 
-        
+                        <!-- Основной текст -->
+                        <p class="grey-text text-darken-3 center-align">
+                            <b>Приложение для просмотра моделей программы DazStudio</b>
+                        </p>
+
+                        <ul class="collection" style="margin-top: 14px;">
+                            <li class="collection-item">
+                                При старте программы вам предлагается выбрать папку для размещения контента. При выборе
+                                создаются рабочие папки — по названиям будет понятно, что и куда размещать.
+                            </li>
+
+                            <li class="collection-item">
+                                Основной единицей является <b>папка</b>, названная <b>по имени модели</b>. В ней уже
+                                может быть архив и другая информация.
+                            </li>
+
+                            <li class="collection-item">
+                                Для создания превью в папке должна быть хотя бы <b>одна картинка</b>.
+                                Там будет создана папка <b>"preview"</b> и в неё добавится первая картинка из папки
+                                модели.
+                                После создания, превью можно заменить вручную, но оставьте имя файла <b>"0.*"</b>.
+                                Если картинок нет — будет использована <b>дефолтная</b> картинка.
+                            </li>
+
+                            <li class="collection-item">
+                                При клике на название модели, открывается папка этой модели в проводнике.
+                            </li>
+
+                            <li class="collection-item">
+                                <b>Ctrl + D</b> — включает полноэкранный режим и выводит из него.
+                            </li>
+
+                            <li class="collection-item">
+                                При изменении пути к папке с контентом, старая папка <b>не удаляется</b>.
+                                Также если по новому пути уже есть папка — ничего <b>не удаляется</b>.
+                            </li>
+
+                            <li class="collection-item">
+                                Если при скролле тормозит отображение картинок — сделайте окно приложения <b>меньшего
+                                    размера</b> (мышью),
+                                это часто ускоряет отрисовку.
+                            </li>
+                        </ul>
+
+                        <!-- Быстрое действие -->
+                        <div class="row" style="margin-bottom: 0;">
+                            <div class="col s12">
+                                <div class="card-panel deep-purple lighten-5" style="margin-top: 0;">
+                                    <div class="valign-wrapper" style="gap: 10px;">
+                                        <i class="material-icons deep-purple-text text-accent-2">folder_open</i>
+                                        <div class="valign-wrapper" style="flex:1; min-width:0; gap:10px; ">
+                                            <div id="path-content" class="black-text" 
+                                            style="
+            font-weight:600;
+            flex:1;
+            min-width:0;              /* ✅ ключевое */
+            overflow:hidden;          /* ✅ */
+            text-overflow:ellipsis;   /* ✅ */
+            white-space:nowrap;       /* ✅ */
+            ">
+                                                сдесь путь к папке с контентом
+                                            </div>
+                                            <a id="chengePathContent" class="waves-effect waves-light btn-small deep-purple accent-2"  style="flex-shrink:0;">
+                                                Изменить путь
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <ul id="list-files" class="collapsible">
             <li>
                 <div class="collapsible-header header-flex deep-purple accent-2 white-text">
                     <span id="files-count">Genesis 9</span>
-                    <i class="material-icons white-text">arrow_drop_down</i>
                 </div>
                 <div class="collapsible-body">
                     <div class="collection">
@@ -134,7 +215,7 @@
                         <div class="collection-item">F</div>
                         <div class="collection-item">G</div>
                         <div class="collection-item">H</div>
-                        <div class="collection-item">IJ</div>
+                        <div class="collection-item">I J</div>
                         <div class="collection-item">K</div>
                         <div class="collection-item">LM</div>
                         <div class="collection-item">N</div>
@@ -151,7 +232,9 @@
                 </div>
             </li>
         </ul>
-
+        <button id="open-settings" class="btn collapsible deep-purple accent-2 white-text">
+            <i class="material-icons right">settings</i>
+        </button>
     </div>
     <script>
 
@@ -164,9 +247,11 @@
     <script src="js/typeTab.js"></script>
     <script src="js/typeModel.js"></script>
     <script src="js/typeSearth.js"></script>
+    <script src="js/smooth-content-change.js"></script>
     <script src="js/Initialization.js"></script>
     <script src="js/informationWindow.js"></script>
     <script src="js/fullscreen.js"></script>
+    <script src="js/settings.js"></script>
 
 </body>
 
