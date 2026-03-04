@@ -123,7 +123,7 @@
 
                             <li class="collection-item">
                                 Для создания превью в папке должна быть хотя бы <b>одна картинка</b>.
-                                Там будет создана папка <b>"preview"</b> и в неё добавится первая картинка из папки
+                                При первом отображении будет создана папка <b>"preview"</b> и в неё добавится первая картинка из папки
                                 модели.
                                 После создания, превью можно заменить вручную, но оставьте имя файла <b>"0.*"</b>.
                                 Если картинок нет — будет использована <b>дефолтная</b> картинка.
@@ -135,6 +135,7 @@
 
                             <li class="collection-item">
                                 <b>Ctrl + D</b> — включает полноэкранный режим и выводит из него.
+                                <b>Ctrl + Колёси мыши</b> — увеличивает и уменьшает размер картинок-превью в окне программы.
                             </li>
 
                             <li class="collection-item">
@@ -143,11 +144,30 @@
                             </li>
 
                             <li class="collection-item">
-                                Если при скролле тормозит отображение картинок — сделайте окно приложения <b>меньшего
-                                    размера</b> (мышью),
-                                это часто ускоряет отрисовку.
+                                Если при скролле тормозит отображение картинок — то Оптимизация 1 и 2 уменьшит размер кртинок-превью. <b>Внимание:</b> оптимизация может занять некоторое время!
+                                <p>Отмена - возвращает первоначальный размер картинок превью.</p>
+                                <p>Удалить - удаляет все картинки-превью, при следующем отображении они будут созданы заново.</p>
                             </li>
+                             <li class="collection-item">
+                            
+                                <div class="row" style="margin-bottom:0;">
+                                    <div class="col s3">
+                                        <a id="opntimazation1" class="btn-small waves-effect waves-light" style="width:100%;">Оптимизация 1</a>
+                                    </div>
+                                    <div class="col s3">
+                                        <a id="opntimazation2" class="btn-small waves-effect waves-light" style="width:100%;">Оптимизация 2</a>
+                                    </div>
+                                    <div class="col s3">
+                                        <a id="opntimazation-refresh" class="btn-small waves-effect waves-light" style="width:100%;">Отмена</a>
+                                    </div>
+                                    <div class="col s3">
+                                        <a id="opntimazation-delete" class="btn-small waves-effect waves-light" style="width:100%;">Удалить</a>
+                                    </div>
+                                </div>
+                        </li>
                         </ul>
+
+                       
 
                         <!-- Быстрое действие -->
                         <div class="row" style="margin-bottom: 0;">
@@ -156,8 +176,7 @@
                                     <div class="valign-wrapper" style="gap: 10px;">
                                         <i class="material-icons deep-purple-text text-accent-2">folder_open</i>
                                         <div class="valign-wrapper" style="flex:1; min-width:0; gap:10px; ">
-                                            <div id="path-content" class="black-text" 
-                                            style="
+                                            <div id="path-content" class="black-text" style="
             font-weight:600;
             flex:1;
             min-width:0;              /* ✅ ключевое */
@@ -167,7 +186,9 @@
             ">
                                                 сдесь путь к папке с контентом
                                             </div>
-                                            <a id="chengePathContent" class="waves-effect waves-light btn-small deep-purple accent-2"  style="flex-shrink:0;">
+                                            <a id="chengePathContent"
+                                                class="waves-effect waves-light btn-small deep-purple accent-2"
+                                                style="flex-shrink:0;">
                                                 Изменить путь
                                             </a>
                                         </div>
@@ -248,6 +269,8 @@
     <script src="js/typeModel.js"></script>
     <script src="js/typeSearth.js"></script>
     <script src="js/smooth-content-change.js"></script>
+    <script src="js/optimization.js"></script>
+    <script src="js/overlay.js"></script>
     <script src="js/Initialization.js"></script>
     <script src="js/informationWindow.js"></script>
     <script src="js/fullscreen.js"></script>

@@ -36,8 +36,6 @@ namespace ViewModelsDazstudio.Services
                 {
                     folder = dlg.FolderName; // полный путь к выбранной папке
 
-                    CreateTreeFolder.Create(defaultRoot);
-
                     Properties.Settings.Default.rootFolder = true;
                     Properties.Settings.Default.rootFolderPath = folder;
                     Properties.Settings.Default.Save();
@@ -50,7 +48,6 @@ namespace ViewModelsDazstudio.Services
             else
             {
                 folder = Properties.Settings.Default.rootFolderPath;
-                CreateTreeFolder.Create(folder);
             }
             
             //MessageBox.Show(folder);

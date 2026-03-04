@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // вывод в окно активного таба
   printToActivTab(null, null, "All", 2000)
 
-  // отправка запроса для получения актуального пути к папке с контентом
+  // отправка запроса для получения актуального пути к папке с контентом для отображения в программе
   const payload = { type: 'get-path-content' };
   chrome.webview.postMessage(payload);
 
@@ -39,6 +39,10 @@ window.chrome.webview.addEventListener('message', (e) => {
     // прописывам актуальный путь 
     const content = document.querySelector('#path-content');
     content.textContent = path;
+  }
+  // отключение оверлея загрузки
+  else if (msg.type == 'finish-overlay') {
+    hideLoader();
   }
   else return;
 
