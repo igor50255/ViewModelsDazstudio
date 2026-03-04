@@ -6,7 +6,7 @@ namespace ViewModelsDazstudio.Services
     {
         private static readonly HashSet<string> ImageExts = new(StringComparer.OrdinalIgnoreCase)
     {
-        ".jpg", ".jpeg", ".png", ".webp", ".bmp", ".gif", ".tif", ".tiff", ".heic", ".avif"
+        ".jpg", ".jpeg", ".png", ".webp"
     };
 
         public static List<string> BuildList(string rootDir, string criteria, string defaultImagePath = @"D:\default.jpg")

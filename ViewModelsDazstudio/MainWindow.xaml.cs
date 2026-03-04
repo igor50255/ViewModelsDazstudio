@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using ViewModelsDazstudio.Services;
 
@@ -26,6 +28,8 @@ public partial class MainWindow : Window
     {
         // Устанавливаем папку для контента при первом запуске (или при изменении папки)
         rootContent = Configure.SetRootContent(rootContent, this);
+
+        CreateTreeFolder.Create(rootContent);// создаёт структуру папок, если её ещё нет 
 
         // Обязательно: создаёт окружение/профиль и гарантирует готовность движка
         await Browser.EnsureCoreWebView2Async();
@@ -119,7 +123,7 @@ public partial class MainWindow : Window
 
                     break;
                 }
-            case "toggle-window-fullscreen": // раскрыть окно на весь экранvar 
+            case "toggle-window-fullscreen": // раскрыть окно на весь экран
                 {
                     ToggleWpfFullscreen();
                     break;
@@ -144,6 +148,36 @@ public partial class MainWindow : Window
  
                     Browser.CoreWebView2.PostWebMessageAsJson(
                         System.Text.Json.JsonSerializer.Serialize(new { type = "set-path-content", pathContent = pathContent.ToString() })
+                    );
+                    break;
+                }
+            case "optimization-refresh": // вернуть файлы превью в первозданное состояние
+                {
+                    Optimization.Refresh();
+                    await Task.Delay(2000);
+                    Browser.CoreWebView2.PostWebMessageAsJson(
+                        System.Text.Json.JsonSerializer.Serialize(new { type = "finish-overlay" })
+                    );
+                    break;
+                }
+            case "optimization": // оптимизировать картинки превью
+                {
+                    var hieght = root.GetProperty("hieght").GetString() ?? "";
+
+                    Optimization.Convert(int.Parse(hieght));
+
+                    await Task.Delay(2000);
+                    Browser.CoreWebView2.PostWebMessageAsJson(
+                        System.Text.Json.JsonSerializer.Serialize(new { type = "finish-overlay" })
+                    );
+                    break;
+                }
+            case "optimization-delete": // удалить все папки с превью
+                {
+                    Optimization.Delete();
+                    await Task.Delay(2000);
+                    Browser.CoreWebView2.PostWebMessageAsJson(
+                        System.Text.Json.JsonSerializer.Serialize(new { type = "finish-overlay" })
                     );
                     break;
                 }
